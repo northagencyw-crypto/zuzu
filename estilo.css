@@ -1,0 +1,505 @@
+/* ---------------------------------------------------------------------------
+   ZU.ZU — cocina de campo, Roma Norte
+   Paleta tomada del lugar y no del rubro: verde de follaje de terraza, brasa
+   de parrilla, maíz y cal fría de pared de la Roma. Se evita a propósito el
+   crema con terracota, que es el default de todo restaurante mexicano en la web.
+--------------------------------------------------------------------------- */
+:root{
+  --noche:#12160E;
+  --fondo:#12160E;
+  --noche-2:#1B211534;
+  --cal:#EFEDE4;
+  --cal-tenue:#EFEDE4B3;
+  --brasa:#C8461B;
+  --follaje:#55663F;
+  --maiz:#E0A93B;
+  --humo:#7A7B70;
+
+  --display:"Fraunces",Georgia,serif;
+  --texto:"Archivo",system-ui,-apple-system,sans-serif;
+
+  --radio:18px;
+  --radio-suave:28px;
+  --radio-organico:38px 26px 34px 22px;
+  --medida:68ch;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+body{
+  margin:0;
+  /* El fondo recorre la paleta del lugar a medida que se baja: verde de
+     follaje, madera, oro, canela y de vuelta al verde. Es el hilo que une la
+     pagina sin agregar un solo elemento a la pantalla. */
+  background:#12160E;
+  color:var(--cal);
+  font-family:var(--texto);
+  font-size:clamp(1rem,.95rem + .25vw,1.125rem);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--maiz);outline-offset:3px}
+
+.contenedor{width:min(100% - 2.5rem,1180px);margin-inline:auto}
+.solo-lectores{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* etiqueta de sección: encodea el orden real de una comida, no decora */
+.etiqueta{
+  font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--maiz);font-weight:600;margin:0 0 1rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+.etiqueta::before{content:"";width:1.75rem;height:1px;background:var(--brasa);flex:none}
+
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.05;margin:0 0 .6em;
+  font-variation-settings:"SOFT" 0,"WONK" 1;letter-spacing:-.015em}
+h1{font-size:clamp(2.6rem,1.6rem + 4.6vw,5.6rem)}
+h2{font-size:clamp(2rem,1.4rem + 2.6vw,3.4rem)}
+h3{font-size:clamp(1.2rem,1.1rem + .5vw,1.5rem)}
+p{margin:0 0 1.1em;max-width:var(--medida)}
+.plomo{font-size:clamp(1.1rem,1rem + .5vw,1.4rem);color:var(--cal-tenue);line-height:1.55}
+
+/* ---------- barra superior ---------- */
+.barra{
+  position:fixed;inset:0 0 auto;z-index:50;
+  display:flex;align-items:center;gap:1.25rem;
+  padding:.85rem clamp(1.25rem,4vw,2.5rem);
+  background:linear-gradient(to bottom,#12160EF2,#12160E00);
+  transition:background .3s ease,backdrop-filter .3s ease;
+}
+.barra.fija{background:#12160EF2;backdrop-filter:blur(10px);border-bottom:1px solid #EFEDE41F}
+.marca{font-family:var(--display);font-weight:700;font-size:1.15rem;letter-spacing:.06em;text-decoration:none;white-space:nowrap}
+.marca span{color:var(--brasa)}
+.nav{display:none;gap:1.6rem;margin-left:auto;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
+.nav a{text-decoration:none;color:var(--cal-tenue);transition:color .2s}
+.nav a:hover{color:var(--cal)}
+.barra .btn{margin-left:auto}
+@media (min-width:940px){
+  .nav{display:flex}
+  .barra .btn{margin-left:0}
+}
+
+/* ---------- botones ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.78rem 1.5rem;border-radius:999px;
+  font-size:.82rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  text-decoration:none;border:1px solid transparent;cursor:pointer;
+  transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-brasa{background:var(--brasa);color:#FFF6F0}
+.btn-brasa:hover{background:#E05427}
+.btn-linea{border-color:#EFEDE459;color:var(--cal)}
+.btn-linea:hover{border-color:var(--maiz);color:var(--maiz)}
+
+/* ---------- hero: la Z es la puerta ----------
+   La marca existe en volumen: una pila de laminas identicas separadas en Z, con
+   la cara frontal en oro pulido y los cantos oscuros. Al girar se ve el espesor,
+   que es lo que la vuelve una pieza y no un dibujo.
+
+   El lugar se revela con la Z como MASCARA CSS sobre el video, nunca escalando
+   el video: asi la imagen se mantiene a resolucion nativa y no aparece el
+   pixelado del enfoque anterior, donde la foto se estiraba al triple para cubrir.
+------------------------------------------------------------------------- */
+.hero{position:relative;height:130vh}
+.hero-marco{position:sticky;top:0;height:100svh;overflow:hidden;background:#0A0D08;
+  perspective:1200px;perspective-origin:50% 45%}
+
+/* La letra de la marca. El logo usa una serif de alto contraste con remates
+   finos, asi que la Z se compone con la tipografia y no con un poligono: una Z
+   geometrica de palo seco no es la letra de ZU.ZU. */
+:root{
+  --mascara:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ctext x='100' y='150' font-family='Bodoni Moda,Didot,Georgia,serif' font-size='190' font-weight='700' text-anchor='middle' fill='%23fff'%3EZ%3C/text%3E%3C/svg%3E");
+}
+
+
+.hero-escena{position:absolute;inset:0;display:grid;place-items:center;transform-style:preserve-3d;
+  translate:0 -11%;}
+
+/* La pieza: una pila de la MISMA letra separada en Z. La frontal va pulida y
+   las de atras oscurecen, que es lo que da el canto al girar. */
+.hero-z{
+  position:relative;display:grid;place-items:center;
+  transform-style:preserve-3d;will-change:transform;
+}
+.z-glifo{
+  grid-area:1/1;
+  font-family:"Bodoni Moda",Didot,Georgia,serif;
+  font-weight:700;
+  font-size:min(58vh,52vw);
+  line-height:.8;
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  user-select:none;pointer-events:none;
+}
+.z-lamina{background-image:linear-gradient(150deg,#3A2205 0%,#6E4610 55%,#8A5A12 100%)}
+
+/* Oro: bandas claras y oscuras alternadas, no un degradado suave. Un metal
+   refleja el entorno en franjas y ese salto es lo que lo separa del amarillo
+   plano. */
+.z-cara{
+  background-image:linear-gradient(122deg,
+    #4A2C06 0%, #8A5A12 9%, #C9922A 17%, #F2D48A 24%,
+    #FFF8E2 30%, #E9BE5B 37%, #A87218 45%, #6E4610 52%,
+    #B0801F 60%, #F6E1A8 68%, #FFFDF4 73%, #DCA93F 80%,
+    #94640F 89%, #4A2C06 100%);
+}
+.z-brillo{
+  mix-blend-mode:screen;
+  background-image:linear-gradient(122deg,#FFFFFF00 40%,#FFFFFFE6 47%,#FFF6D000 55%);
+  background-size:300% 100%;
+  animation:barrido 6.5s cubic-bezier(.5,.02,.3,1) infinite;
+}
+@keyframes barrido{0%{background-position:190% 0}60%,100%{background-position:-100% 0}}
+@media (prefers-reduced-motion:reduce){.z-brillo{animation:none}}
+
+.hero-puerta{
+  position:absolute;inset:0;opacity:0;will-change:opacity,transform;
+}
+.hero-puerta video,.hero-puerta img{width:100%;height:100%;object-fit:cover;display:block}
+/* Grano finisimo: el video es 576 px de ancho real y en desktop se estira, asi
+   que un poco de textura disimula el escalado. Es ademas el acabado que le
+   sienta a una marca de alta gama. */
+.hero-grano{
+  position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23r)' opacity='.42'/%3E%3C/svg%3E");
+}
+.hero-vineta{
+  position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(120% 92% at 50% 18%,#12160E00 0%,#12160E8C 58%,#12160EF0 100%);
+}
+@media (prefers-reduced-motion:reduce){.hero-puerta{opacity:1!important;transform:none!important}.hero-z{opacity:0}}
+.hero-texto{
+  position:absolute;inset:auto 0 0;z-index:3;opacity:1;
+  background:linear-gradient(to top,#0A0D08F2 12%,#0A0D08B8 55%,#0A0D0800 100%);
+  padding:clamp(4rem,14vh,9rem) clamp(1.25rem,4vw,2.5rem)
+          calc(clamp(1.5rem,5vh,6rem) + var(--barra-movil));
+  text-align:center;will-change:transform,opacity;
+}
+@media (max-width:939px){
+  /* La letra en el celular quedaba chica y alta, con un hueco muerto arriba.
+     Ocupa mas ancho y sube a ocupar ese hueco, en vez de bajar sobre el texto. */
+  .z-glifo{font-size:min(40vh,72vw)}
+  .hero-escena{translate:0 -19%}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{width:100%}
+  /* La barra fija de abajo ya ofrece reservar en todo momento. Repetirlo en el
+     encabezado deja tres botones identicos en una sola pantalla, que no suma
+     una conversion mas: solo tapa el nombre del lugar. */
+  .barra > .btn{display:none}
+}
+.hero-texto h1{margin:0 0 .35em;text-wrap:balance}
+.hero-texto h1 em{font-style:italic;color:var(--maiz);font-variation-settings:"WONK" 1}
+.hero-sub{
+  font-size:.76rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--cal-tenue);margin:0 auto 1.6rem;max-width:none;
+}
+.hero-sub b{font-weight:inherit;color:var(--maiz)}
+.hero-cta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.hero-hint{
+  position:absolute;left:50%;bottom:1.1rem;translate:-50% 0;z-index:3;
+  font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:#EFEDE47A;
+  transition:opacity .4s ease;
+}
+/* Sin movimiento: se muestra el lugar y el titulo, sin coreografia. */
+@media (prefers-reduced-motion:reduce){
+  .hero{height:100svh}
+  .hero-texto{opacity:1}
+  .hero-vineta{opacity:1}
+  .hero-hint{display:none}
+}
+
+.eje{position:relative}
+.seccion{padding:clamp(3rem,6vh,5rem) 0;position:relative}
+.servido{display:grid;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+@media (min-width:1024px){
+  .servido{grid-template-columns:1fr 1fr;gap:5.5rem}
+  .servido--der > .servido-texto{order:2}
+}
+.servido-figura{position:relative}
+.servido-figura img{border-radius:var(--radio-organico);aspect-ratio:4/5;object-fit:cover;width:100%}
+.firmas{
+  margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid #EFEDE41F;
+  font-size:.82rem;letter-spacing:.05em;color:var(--humo);
+}
+.firmas b{font-weight:500;color:var(--crema)}
+.servido-figura figcaption{
+  margin-top:.7rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--humo);
+}
+
+/* ---------- menú ---------- */
+.menu-grid{display:grid;gap:1px;background:#EFEDE41F;border:1px solid #EFEDE41F;border-radius:var(--radio-suave);overflow:hidden;margin-top:2.5rem}
+@media (min-width:700px){.menu-grid{grid-template-columns:repeat(3,1fr)}}
+.menu-carta{background:#00000026;padding:1.9rem 1.5rem;transition:background .25s ease}
+.menu-carta:hover{background:#1A2013}
+.menu-carta h3{margin-bottom:.35rem;color:var(--cal)}
+.menu-carta p{font-size:.92rem;color:var(--cal-tenue);margin:0}
+.menu-carta .n{font-family:var(--display);font-size:.8rem;color:var(--brasa);display:block;margin-bottom:.6rem}
+
+/* ---------- la carta, en texto y no en imagen ----------
+   Los 145 platos estan TODOS en el DOM aunque se vea una seccion por vez. Ese
+   es el objetivo: hasta ahora la carta vivia dentro de PNG y un buscador no
+   podia leer un solo plato del restaurante. */
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:2rem;border-bottom:1px solid #EFEDE42E;padding-bottom:.8rem}
+.tab{
+  background:transparent;border:1px solid transparent;color:var(--cal-tenue);cursor:pointer;
+  font:inherit;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.6rem 1.1rem;border-radius:999px;display:inline-flex;align-items:center;gap:.45rem;
+  transition:color .2s,background .2s,border-color .2s;
+}
+.tab span{font-size:.68rem;opacity:.6;font-variant-numeric:tabular-nums}
+.tab:hover{color:var(--cal);background:#1A2013}
+.tab[aria-selected="true"]{color:var(--noche);background:var(--maiz);border-color:var(--maiz)}
+.tab[aria-selected="true"] span{opacity:.75}
+
+/* La foto manda y el precio acompania: en un restaurante lo que decide es ver
+   el plato, no comparar cifras. Por eso el precio va chico y discreto, sobre la
+   imagen, y el nombre pesa mas que el numero. */
+.panel[hidden]{display:block}
+.con-js .panel[hidden]{display:none}
+.panel{margin-top:2rem}
+.dishes{display:grid;gap:1rem;margin-bottom:2.5rem}
+@media (min-width:620px){.dishes{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1000px){.dishes{grid-template-columns:repeat(3,1fr);gap:1.25rem}}
+.dish{
+  position:relative;margin:0;border-radius:var(--radio-suave);overflow:hidden;
+  background:#0000002E;
+}
+.dish img{
+  width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.dish:hover img{transform:scale(1.05)}
+.dish-txt{
+  position:absolute;left:0;right:0;bottom:0;padding:3.5rem 1.1rem 1rem;
+  background:linear-gradient(to top,#0A0D08F0,#0A0D0800);
+}
+.dish-txt h3{
+  font-family:var(--display);font-size:1.12rem;font-weight:600;margin:0 0 .2rem;
+  font-variation-settings:"WONK" 1;line-height:1.2;
+}
+.dish-txt p{font-size:.8rem;color:var(--cal-tenue);margin:0;line-height:1.4;max-width:none}
+.dish-precio{
+  position:absolute;top:.9rem;right:.9rem;
+  background:#0A0D08B8;backdrop-filter:blur(6px);
+  padding:.28rem .6rem;border-radius:999px;
+  font-size:.72rem;font-weight:600;color:var(--maiz);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.lista{columns:1;column-gap:3rem}
+@media (min-width:720px){.lista{columns:2}}
+@media (min-width:1100px){.lista{columns:3}}
+.grupo{
+  font-family:var(--texto);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--maiz);margin:1.6rem 0 .9rem;break-after:avoid;
+}
+.panel .grupo:first-child{margin-top:0}
+.item{break-inside:avoid;margin:0 0 1.35rem;padding-bottom:1.35rem;border-bottom:1px solid #EFEDE414}
+.item-cab{display:flex;gap:1rem;align-items:baseline;justify-content:space-between}
+.item h4{
+  font-family:var(--display);font-size:1.02rem;font-weight:600;margin:0;line-height:1.25;
+  font-variation-settings:"WONK" 1;
+}
+.precio{font-size:.92rem;color:var(--maiz);white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.item p{font-size:.86rem;color:var(--cal-tenue);margin:.35rem 0 0;line-height:1.5;max-width:none}
+.gramaje{display:inline-block;margin-top:.3rem;font-size:.68rem;letter-spacing:.1em;color:var(--humo)}
+
+/* ---------- escenas de evento ----------
+   Las cuatro capas se apilan y el scroll cruza de una a otra. El encuadre no
+   cambia nunca: se ve el mismo salon cambiando de uso, que es el argumento de
+   venta, y no cuatro lugares distintos. */
+.escenas{position:relative;height:320vh;margin-top:2.5rem}
+.escenas-marco{position:sticky;top:0;height:100svh;overflow:hidden}
+.escena{position:absolute;inset:0;margin:0;opacity:0;will-change:opacity,transform}
+.escena:first-child{opacity:1}
+.escena img{width:100%;height:100%;object-fit:cover;display:block}
+.escena figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:8rem clamp(1.25rem,5vw,4rem) clamp(2.5rem,7vh,4.5rem);
+  background:linear-gradient(to top,#0A0D08F2,#0A0D0800);
+}
+.escena figcaption span{
+  font-family:var(--display);font-size:clamp(1.6rem,1.1rem + 2.2vw,3.2rem);
+  font-variation-settings:"WONK" 1;letter-spacing:-.01em;
+}
+@media (prefers-reduced-motion:reduce){
+  .escenas{height:auto}
+  .escenas-marco{position:static;height:auto;display:grid;gap:.6rem}
+  .escena{position:relative;opacity:1;aspect-ratio:16/9}
+}
+
+/* foto de cada cata */
+.cata-foto{
+  width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radio);
+  margin-bottom:1rem;
+}
+
+/* ---------- la cocina ----------
+   Solo hay dos fotos de comida utilizables, asi que la seccion se diseña para
+   dos y no finge un catalogo: piezas grandes y una nota al costado. Cuando
+   lleguen mas fotos, entra una grilla y esto se reemplaza. */
+.cocina{display:grid;gap:1.25rem;margin-top:2rem}
+@media (min-width:760px){.cocina{grid-template-columns:1fr 1fr 1fr;align-items:end}}
+.plato{margin:0;position:relative;overflow:hidden;border-radius:var(--radio-organico)}
+.plato img{aspect-ratio:4/5;object-fit:cover;width:100%;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.plato:hover img{transform:scale(1.05)}
+.plato figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:1.6rem 1.1rem .9rem;
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cal);
+  background:linear-gradient(to top,#12160ED9,transparent);
+}
+.plato-nota{align-self:center}
+.plato-nota p{color:var(--cal-tenue)}
+
+/* ---------- galería del lugar: densa y clickeable ---------- */
+.mosaico{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:2rem}
+@media (min-width:620px){.mosaico{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:980px){.mosaico{grid-template-columns:repeat(4,1fr);gap:.6rem}}
+.pieza{
+  position:relative;padding:0;border:0;background:#0000002E;cursor:zoom-in;
+  overflow:hidden;border-radius:var(--radio-suave);display:block;line-height:0;
+}
+.pieza img{
+  aspect-ratio:4/5;object-fit:cover;width:100%;
+  transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .4s ease;
+  filter:saturate(.92) brightness(.94);
+}
+.pieza::after{
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .35s ease;
+  background:linear-gradient(to top,#12160EA6,transparent 55%);
+}
+.pieza:hover img,.pieza:focus-visible img{transform:scale(1.06);filter:saturate(1.05) brightness(1.04)}
+.pieza:hover::after,.pieza:focus-visible::after{opacity:1}
+/* piezas que mandan: rompen la grilla para que no sea un damero */
+.mosaico .pieza:nth-child(1),.mosaico .pieza:nth-child(8){grid-column:span 2;grid-row:span 2}
+.mosaico .pieza:nth-child(1) img,.mosaico .pieza:nth-child(8) img{aspect-ratio:1/1;height:100%}
+@media (max-width:619px){
+  .mosaico .pieza:nth-child(1),.mosaico .pieza:nth-child(8){grid-column:span 2;grid-row:auto}
+  .mosaico .pieza:nth-child(1) img,.mosaico .pieza:nth-child(8) img{aspect-ratio:16/10}
+}
+
+/* visor a pantalla completa */
+.visor{
+  position:fixed;inset:0;z-index:90;display:none;place-items:center;
+  background:#080A06F2;backdrop-filter:blur(6px);padding:clamp(1rem,4vw,3rem);
+}
+.visor[open],.visor.abierto{display:grid}
+.visor img{max-width:min(94vw,1200px);max-height:86vh;object-fit:contain;border-radius:var(--radio-suave)}
+.visor-cerrar,.visor-nav{
+  position:absolute;background:#12160EBF;border:1px solid #EFEDE433;color:var(--cal);
+  width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.3rem;line-height:1;
+  display:grid;place-items:center;transition:background .2s,border-color .2s;
+}
+.visor-cerrar:hover,.visor-nav:hover{background:var(--brasa);border-color:var(--brasa)}
+.visor-cerrar{top:1.2rem;right:1.2rem}
+.visor-nav.ant{left:1.2rem;top:50%;translate:0 -50%}
+.visor-nav.sig{right:1.2rem;top:50%;translate:0 -50%}
+.visor-pie{position:absolute;bottom:1.2rem;left:50%;translate:-50% 0;font-size:.82rem;color:var(--cal-tenue);text-align:center;max-width:80vw}
+
+/* ---------- recorrido en video ----------
+   El material fue filmado en vertical con telefono (576x1024). Se muestra en su
+   proporcion, que es donde se ve nitido, en vez de estirarlo a pantalla ancha
+   como fondo, donde el upscale de casi 3x lo vuelve borroso. */
+.recorrido{display:grid;gap:2rem;margin-top:2.5rem;align-items:center}
+@media (min-width:860px){.recorrido{grid-template-columns:minmax(0,380px) 1fr;gap:3.5rem}}
+.recorrido video{
+  width:100%;max-width:380px;aspect-ratio:9/16;object-fit:cover;
+  border-radius:var(--radio-suave);display:block;background:#0A0D08;
+}
+.recorrido-nota p{font-size:clamp(1.1rem,1rem + .5vw,1.35rem);color:var(--cal-tenue)}
+
+/* ---------- mezcal ---------- */
+.catas{display:grid;gap:1.25rem;margin-top:2.5rem}
+@media (min-width:700px){.catas{grid-template-columns:repeat(2,1fr)}}
+.cata{
+  border:1px solid #EFEDE42E;border-radius:var(--radio-suave);padding:1.75rem;
+  display:flex;flex-direction:column;gap:.6rem;
+  transition:border-color .25s ease,background .25s ease;
+}
+.cata:hover{border-color:var(--maiz);background:#1A2013}
+.cata h3{margin:0}
+.cata p{font-size:.92rem;color:var(--cal-tenue);margin:0;flex:1}
+.cata .ir{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--maiz);text-decoration:none;font-weight:600}
+
+/* ---------- datos duros del salón ---------- */
+.cifras{display:grid;gap:1.5rem;margin-top:2.5rem;border-top:1px solid #EFEDE42E;padding-top:2rem}
+@media (min-width:640px){.cifras{grid-template-columns:repeat(3,1fr)}}
+.cifra b{font-family:var(--display);font-size:clamp(2rem,1.5rem + 1.6vw,2.8rem);display:block;line-height:1;color:var(--maiz)}
+.cifra span{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--humo)}
+
+/* ---------- faq ---------- */
+.faq{margin-top:2.5rem;border-top:1px solid #EFEDE42E}
+.faq details{border-bottom:1px solid #EFEDE42E}
+.faq summary{
+  cursor:pointer;padding:1.15rem 0;font-family:var(--display);font-size:1.12rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;list-style:none;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--brasa);font-size:1.4rem;transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding-bottom:1.2rem;margin:0;color:var(--cal-tenue)}
+
+/* ---------- contacto ---------- */
+.contacto{display:grid;gap:2.5rem;margin-top:2.5rem}
+@media (min-width:860px){.contacto{grid-template-columns:1fr 1fr}}
+.dato{margin-bottom:1.5rem}
+.dato dt{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--humo);margin-bottom:.3rem}
+.dato dd{margin:0;font-size:1.05rem}
+.dato dd a{text-decoration:none;border-bottom:1px solid #EFEDE44D;transition:border-color .2s,color .2s}
+.dato dd a:hover{color:var(--maiz);border-color:var(--maiz)}
+.mapa{border:0;width:100%;height:100%;min-height:320px;border-radius:var(--radio-suave);filter:grayscale(1) contrast(1.1) brightness(.85)}
+
+/* ---------- newsletter ---------- */
+.suscribir{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.5rem;max-width:520px}
+.suscribir input{
+  flex:1 1 240px;background:transparent;border:1px solid #EFEDE459;color:var(--cal);
+  padding:.85rem 1.2rem;border-radius:999px;font:inherit;font-size:.95rem;
+}
+.suscribir input::placeholder{color:var(--humo)}
+.suscribir input:focus{border-color:var(--maiz);outline:none}
+
+/* ---------- pie ---------- */
+.pie{border-top:1px solid #EFEDE42E;padding:3rem 0 6.5rem;font-size:.85rem;color:var(--humo)}
+.pie-fila{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.pie a{color:var(--cal-tenue);text-decoration:none}
+.pie a:hover{color:var(--maiz)}
+.redes{display:flex;gap:1.25rem;flex-wrap:wrap}
+
+/* ---------- reserva fija en celular ----------
+   Ocupa el borde inferior de la pantalla y tapaba el segundo boton del hero,
+   asi que en el primer cuadro habia dos "Reservar mesa" encimados y "Ver la
+   carta" quedaba abajo, invisible. La altura de la barra se declara una sola
+   vez y el hero se aparta ese tanto. */
+:root{--barra-movil:4.6rem}
+@media (min-width:940px){:root{--barra-movil:0px}}
+.pie-datos{font-style:normal;font-size:.9rem;line-height:1.7;color:var(--humo);max-width:none}
+.pie-datos strong{color:var(--crema);font-weight:500}
+.reserva-movil{
+  position:fixed;inset:auto 0 0;z-index:60;padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+  background:#12160EF2;backdrop-filter:blur(10px);border-top:1px solid #EFEDE41F;
+  display:flex;gap:.6rem;
+}
+.reserva-movil .btn{flex:1;justify-content:center}
+@media (min-width:940px){.reserva-movil{display:none} .pie{padding-bottom:3rem}}
+
+/* ---------- el gesto de la Z, repetido en toda la pagina ----------
+   El hero abre el lugar con una forma que crece. De ahi en mas cada imagen,
+   cada titulo y cada pieza de galeria entra con el mismo barrido diagonal,
+   gobernado por el scroll y no por un disparo unico: el corte sigue la misma
+   inclinacion que la diagonal de la letra, asi la pagina se arma con un solo
+   gesto en vez de acumular efectos distintos. */
+.abre{will-change:transform,opacity}
+@media (prefers-reduced-motion:reduce){
+  .abre{clip-path:none!important;opacity:1!important;transform:none!important}
+}
+
+/* aparición al entrar en pantalla */
+.con-js .revelar{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.revelar.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.revelar{opacity:1;transform:none}}
