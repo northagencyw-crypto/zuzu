@@ -117,7 +117,10 @@
       event: "zuzu_" + base,
       accion: nombre,
       pagina: location.pathname,
-      destino: enlace ? enlace.href.slice(0, 120) : ""
+      // Un <button> no tiene href. Leerlo tiraba un TypeError justo en el
+      // envio del formulario, que es la unica conversion que pasa por un
+      // boton y no por un enlace: se perdia entera.
+      destino: (enlace && "href" in enlace) ? String(enlace.href).slice(0, 120) : ""
     };
     Object.assign(datos, origen());
     window.dataLayer.push(datos);
